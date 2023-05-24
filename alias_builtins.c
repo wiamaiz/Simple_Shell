@@ -26,9 +26,8 @@ int shellby_alias(char **args, char __attribute__((__unused__)) **front)
 			print_alias(temp);
 			temp = temp->next;
 		}
-		return ret;
+		return (ret);
 	}
-
 	for (i = 0; args[i]; i++)
 	{
 		temp = aliases;
@@ -50,8 +49,7 @@ int shellby_alias(char **args, char __attribute__((__unused__)) **front)
 		else
 			set_alias(args[i], value);
 	}
-
-	return ret;
+	return (ret);
 }
 
 /**
@@ -72,14 +70,12 @@ void set_alias(char *var_name, char *value)
 	new_value = malloc(sizeof(char) * (len + 1));
 	if (!new_value)
 		return;
-
 	for (j = 0, k = 0; value[j]; j++)
 	{
 		if (value[j] != '\'' && value[j] != '"')
 			new_value[k++] = value[j];
 	}
 	new_value[k] = '\0';
-
 	while (temp)
 	{
 		if (_strcmp(var_name, temp->name) == 0)
@@ -90,7 +86,6 @@ void set_alias(char *var_name, char *value)
 		}
 		temp = temp->next;
 	}
-
 	if (!temp)
 		add_alias_end(&aliases, var_name, new_value);
 }
@@ -107,7 +102,6 @@ void print_alias(alias_t *alias)
 	alias_string = malloc(sizeof(char) * (len + 1));
 	if (!alias_string)
 		return;
-
 	_strcpy(alias_string, alias->name);
 	_strcat(alias_string, "='");
 	_strcat(alias_string, alias->value);
@@ -116,9 +110,8 @@ void print_alias(alias_t *alias)
 	write(STDOUT_FILENO, alias_string, len);
 	free(alias_string);
 }
-
 /**
- * replace_aliases - Goes through the arguments and replaces any matching alias
+ * replace_aliases - Goes through the arguments and replace any matching alias
  * with their value.
  * @args: 2D pointer to the arguments.
  *
@@ -131,8 +124,7 @@ char **replace_aliases(char **args)
 	char *new_value;
 
 	if (_strcmp(args[0], "alias") == 0)
-		return args;
-
+		return (args);
 	for (i = 0; args[i]; i++)
 	{
 		temp = aliases;
@@ -144,7 +136,7 @@ char **replace_aliases(char **args)
 				if (!new_value)
 				{
 					free_args(args, args);
-					return NULL;
+					return (NULL);
 				}
 				_strcpy(new_value, temp->value);
 				free(args[i]);
@@ -156,5 +148,5 @@ char **replace_aliases(char **args)
 		}
 	}
 
-	return args;
+	return (args);
 }
